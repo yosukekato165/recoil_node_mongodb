@@ -1,11 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
-import { mongodb } from "./mongodb.js";
+import { mongodb, deleteMongodb } from "./mongodb.js";
 
 dotenv.config();
 
 const REFERENCE = "/reference";
 const REGISTER = "/register";
+const DELETE = "/delete";
 const app = express();
 
 const port = 3030;
@@ -37,6 +38,13 @@ app.post("/hey", (req, res) => {
 app.post(REFERENCE, async (req, res) => {
   // console.log(JSON.parse(req.body));
   let result = await mongodb(req.body);
+  console.log(result);
+  res.json(result);
+});
+
+app.delete(DELETE, async (req, res) => {
+  // console.log(JSON.parse(req.body));
+  let result = await deleteMongodb(req.body);
   console.log(result);
   res.json(result);
 });

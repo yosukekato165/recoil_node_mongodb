@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 // const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -25,6 +25,22 @@ export async function mongodb(arg) {
 
 mongodb().catch(console.error);
 
+export async function deleteMongodb(arg) {
+  const client = new MongoClient(process.env.MONGODB_URI);
+
+  try {
+    await client.connect();
+
+    console.log(arg);
+    const result = await deleteDBItem(client, arg);
+    return result;
+  } catch (e) {
+    console.log(`error ${e}`);
+  } finally {
+    await client.close();
+  }
+}
+
 async function listDatabases(client) {
   databasesList = await client.db().admin().listDatabases();
 
@@ -46,9 +62,22 @@ async function findListingByText(client) {
   const result = await client
     .db("recoil")
     .collection("todos")
-    .find({
-      text: [a - z],
-    });
+    .find({})
+    .toArray();
+  if (result) {
+    console.log(result);
+    return result;
+  } else {
+    console.log(`No listings found`);
+    return result;
+  }
+}
+
+async function deleteDBItem(client, id) {
+  const result = await client
+    .db("recoil")
+    .collection("todos")
+    .deleteOne({ _id: ObjectId(id) });
   if (result) {
     console.log(result);
     return result;

@@ -14,7 +14,7 @@ export async function mongodb(arg) {
       text: arg.text,
     });
 
-    const result = await findOneListingByText(client, arg.text);
+    const result = await findListingByText(client);
     return result;
   } catch (e) {
     console.log(`error ${e}`);
@@ -42,19 +42,18 @@ async function createListing(client, newListing) {
   );
 }
 
-async function findOneListingByText(client, textOfListing) {
+async function findListingByText(client) {
   const result = await client
     .db("recoil")
     .collection("todos")
-    .findOne({ text: textOfListing });
+    .find({
+      text: [a - z],
+    });
   if (result) {
-    console.log(
-      `Found a listing in the collection with the text '${textOfListing}':`
-    );
     console.log(result);
     return result;
   } else {
-    console.log(`No listings found with the text '${textOfListing}'`);
+    console.log(`No listings found`);
     return result;
   }
 }

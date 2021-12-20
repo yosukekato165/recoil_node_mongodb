@@ -74,10 +74,11 @@ async function findListingByText(client) {
 }
 
 async function deleteDBItem(client, id) {
+  console.log(id._id);
   const result = await client
     .db("recoil")
     .collection("todos")
-    .deleteOne({ _id: ObjectId(id) });
+    .deleteOne({ _id: ObjectId(id._id) });
   if (result) {
     console.log(result);
     return result;

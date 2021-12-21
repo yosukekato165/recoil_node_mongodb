@@ -8,11 +8,25 @@ export async function mongodb(arg) {
   try {
     await client.connect();
 
-    // await listDatabases(client);
     await createListing(client, {
       isComplete: arg.isComplete,
       text: arg.text,
     });
+
+    const result = await findListingByText(client);
+    return result;
+  } catch (e) {
+    console.log(`error ${e}`);
+  } finally {
+    await client.close();
+  }
+}
+
+export async function getMongodb() {
+  const client = new MongoClient(process.env.MONGODB_URI);
+
+  try {
+    await client.connect();
 
     const result = await findListingByText(client);
     return result;

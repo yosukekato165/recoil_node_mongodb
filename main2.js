@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import { mongodb, deleteMongodb } from "./mongodb.js";
+import { mongodb, deleteMongodb, getMongodb } from "./mongodb.js";
 
 dotenv.config();
 
@@ -37,8 +37,13 @@ app.post("/hey", (req, res) => {
 });
 
 app.post(REFERENCE, async (req, res) => {
-  // console.log(JSON.parse(req.body));
   let result = await mongodb(req.body);
+  console.log(result);
+  res.json(result);
+});
+
+app.get(REFERENCE, async (req, res) => {
+  let result = await getMongodb(req.body);
   console.log(result);
   res.json(result);
 });

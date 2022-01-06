@@ -15,7 +15,6 @@ const port = 3030,
       "Access-Control-Max-Age": 2592000, // 30 days
       "Content-Type": "application/json",
     };
-    // httpStatus.OK:200
     let result = {};
     if (req.url === REGISTER) {
       res.writeHead(httpStatus.OK, headers);
